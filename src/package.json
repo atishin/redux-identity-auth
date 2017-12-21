@@ -1,0 +1,34 @@
+{
+    "name": "ng-redux-identity-auth",
+    "version": "1.0.0",
+    "description": "Angular redux based identity authentication",
+    "main": "index.js",
+    "module": "index.js",
+    "types": "index.d.ts",
+    "readme": "README.md",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/atishin/ng-simple-storage"
+    },
+    "keywords": [
+        "angular",
+        "redux",
+        "auth",
+        "identity"
+    ],
+    "author": "Anton Tishin",
+    "license": "MIT",
+    "peerDependencies": {
+        "@angular/core": "*",
+        "@angular/platform-browser": "*",
+        "@angular/compiler": "*",
+        "core-js": "*",
+        "rxjs": "*",
+        "zone.js": "*",
+        "redux": "*",
+        "@angular-redux/store": "*"
+    }
+}
