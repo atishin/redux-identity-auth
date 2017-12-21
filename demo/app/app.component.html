@@ -1,0 +1,11 @@
+<ng-container *ngIf="isAuthenticated$ | async; else notAuthenticated">
+    <button (click)="logout()">Logout</button>
+    {{ userInfo$ | async | json}}
+</ng-container>
+
+<ng-template #notAuthenticated>
+    <button (click)="login()">Login</button>
+</ng-template>
+
+<router-outlet></router-outlet>
+
