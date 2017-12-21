@@ -9,17 +9,13 @@ import { AppComponent } from './app.component';
 import { createLogger } from 'redux-logger';
 import persistState from 'redux-localstorage';
 import { combineReducers } from 'redux';
-import { userReducer } from '../../src/user.reducer';
+import { UserReducerService, UserWithRolesReducerService } from '../../src/user.reducer';
 import { HttpClientModule } from '@angular/common/http';
-
-const reducers = combineReducers({
-    user: userReducer
-});
-export function rootReducer(state = {}, action) {
-    return reducers(state, action);
-}
-console.log(rootReducer);
-
+import { NgReduxIdentityAuthModule } from '../../src/ng-redux-identity-auth.module';
+import { TOKEN_ENDPOINT } from '../../src/token.endpoint';
+import { AuthService } from '../../src/auth.service';
+import { AuthServiceWithRoles } from '../../src/auth.service-with-roles';
+import { INITIAL_USER_STATE, INITIAL_USER_WITH_ROLES_STATE } from '../../src/initial.states';
 
 @NgModule({
     declarations: [
@@ -29,23 +25,33 @@ console.log(rootReducer);
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
-        NgReduxModule
+        NgReduxModule,
+        NgReduxIdentityAuthModule
     ],
-    providers: [],
+    providers: [
+        { provide: TOKEN_ENDPOINT, useValue: 'https://identity-demo-server.azurewebsites.net/TokenWithRoles' },
+        { provide: AuthService, useClass: AuthServiceWithRoles }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {
     constructor(
         private ngRedux: NgRedux<any>,
-        private devTools: DevToolsExtension
+        private devTools: DevToolsExtension,
+        private userReducer: UserWithRolesReducerService
     ) {
-        console.log('here');
+        const rootReducer = combineReducers({
+            user: userReducer.reducer()
+        });
+
         const enhancers = [
             persistState(),
             ...(devTools.isEnabled ? [devTools.enhancer()] : [])
         ];
-        console.log(rootReducer);
 
-        ngRedux.configureStore(reducers, undefined, [createLogger()], enhancers);
+        ngRedux.configureStore(rootReducer, {
+            user: INITIAL_USER_WITH_ROLES_STATE
+        }, [createLogger()], enhancers);
+        console.log(ngRedux.getState());
     }
 }

@@ -27,16 +27,10 @@ export class AppComponent {
         this.ngRedux.dispatch(this.userActions.logout());
     }
 
-    async login() {
-        const request = await this.http.post<any>('http://identity-demo-server.azurewebsites.net/Token', new HttpParams({fromObject: {
-            grant_type: 'password',
+    login() {
+        this.ngRedux.dispatch(this.userActions.login({
             userName: 'admin@identity.demo',
             password: 'Admin123##'
-        }}).toString()).toPromise();
-        this.ngRedux.dispatch(this.userActions.login({
-            token: request.acces_token,
-            expirationDate: request['.expires'],
-            userName: request.userName
         }));
     }
 }
