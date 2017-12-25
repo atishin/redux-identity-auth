@@ -1,21 +1,7 @@
-export interface IUserInfo {
-    token: string;
-    expirationDate: string;
-    userName: string;
-}
+import { GrantProvider } from './grant-providers/grant';
 
-export interface IUserWithRolesInfo extends IUserInfo {
-    roles: string[];
-}
-
-export interface IUserState {
+export interface IUserState<TInfoModel extends GrantProvider.IUserInfoModel = GrantProvider.IUserInfoModel> {
     isAuthenticated: boolean;
     isAuthenticating: boolean;
-    info: IUserInfo;
-}
-
-export interface IUserWithRolesState {
-    isAuthenticated: boolean;
-    isAuthenticating: boolean;
-    info: IUserWithRolesInfo;
+    info: TInfoModel;
 }

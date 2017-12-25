@@ -9,13 +9,8 @@ import { AppComponent } from './app.component';
 import { createLogger } from 'redux-logger';
 import persistState from 'redux-localstorage';
 import { combineReducers } from 'redux';
-import { UserReducerService, UserWithRolesReducerService } from '../../src/user.reducer';
 import { HttpClientModule } from '@angular/common/http';
-import { NgReduxIdentityAuthModule } from '../../src/ng-redux-identity-auth.module';
-import { TOKEN_ENDPOINT } from '../../src/token.endpoint';
-import { AuthService } from '../../src/auth.service';
-import { AuthServiceWithRoles } from '../../src/auth.service-with-roles';
-import { INITIAL_USER_STATE, INITIAL_USER_WITH_ROLES_STATE } from '../../src/initial.states';
+import { TOKEN_ENDPOINT, NgReduxIdentityAuthModule, INITIAL_USER_STATE, UserReducerService, HAS_ROLES_IN_RESPONSE } from '../../src/index';
 
 @NgModule({
     declarations: [
@@ -30,7 +25,7 @@ import { INITIAL_USER_STATE, INITIAL_USER_WITH_ROLES_STATE } from '../../src/ini
     ],
     providers: [
         { provide: TOKEN_ENDPOINT, useValue: 'https://identity-demo-server.azurewebsites.net/TokenWithRoles' },
-        { provide: AuthService, useClass: AuthServiceWithRoles }
+        { provide: HAS_ROLES_IN_RESPONSE, useValue: true },
     ],
     bootstrap: [AppComponent]
 })
@@ -38,7 +33,7 @@ export class AppModule {
     constructor(
         private ngRedux: NgRedux<any>,
         private devTools: DevToolsExtension,
-        private userReducer: UserWithRolesReducerService
+        private userReducer: UserReducerService
     ) {
         const rootReducer = combineReducers({
             user: userReducer.reducer()
@@ -50,7 +45,7 @@ export class AppModule {
         ];
 
         ngRedux.configureStore(rootReducer, {
-            user: INITIAL_USER_WITH_ROLES_STATE
+            user: INITIAL_USER_STATE
         }, [createLogger()], enhancers);
         console.log(ngRedux.getState());
     }
