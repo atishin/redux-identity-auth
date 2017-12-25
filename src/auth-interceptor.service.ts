@@ -16,7 +16,7 @@ export class AuthInterceptorService<TState extends { user: IUserState }> impleme
         }
         if (state.user.isAuthenticated) {
             let headers = req.headers;
-            this.getHeaders().forEach(header => headers = headers.set(header.header, header.value));
+            this.getHeaders(state).forEach(header => headers = headers.set(header.header, header.value));
             const authReq = req.clone({ headers });
             return next.handle(authReq);
         }
@@ -27,7 +27,7 @@ export class AuthInterceptorService<TState extends { user: IUserState }> impleme
     constructor(
         private ngRedux: NgRedux<TState>,
         @Inject(TOKEN_SUFFIX) private tokenSuffix: string,
-        @Inject(GRANT_GET_HEADER_FUNC) private getHeaders: () => GrantProvider.IHeader[]
+        @Inject(GRANT_GET_HEADER_FUNC) private getHeaders: GrantProvider.GetHeadersFunction
     ) { }
 
 }

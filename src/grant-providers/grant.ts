@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { IUserState } from "../user.state";
 
 @Injectable()
 export class GrantProvider {
@@ -31,4 +32,5 @@ export namespace GrantProvider {
     export interface IUserInfoModel {
         [key: string]: any;
     }
+    export type GetHeadersFunction = <TState extends { user: IUserState }>(state: TState) => IHeader[];
 }
