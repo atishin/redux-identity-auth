@@ -71,7 +71,7 @@ export function getHeaders(state: { user: IUserState }): GrantProvider.IHeader[]
 
 export namespace PasswordGrantProvider {
 
-    export interface IUserAuthenticatedModel {
+    export interface IUserAuthenticatedModel extends GrantProvider.IUserAuthenticatedModel {
         access_token: string;
         userName: string;
         roles?: string;
@@ -86,7 +86,7 @@ export namespace PasswordGrantProvider {
         userName: string;
         password: string;
     }
-    export interface IUserInfoModel {
+    export interface IUserInfoModel extends GrantProvider.IUserInfoModel {
         token: string;
         expirationDate: string;
         userName: string;
