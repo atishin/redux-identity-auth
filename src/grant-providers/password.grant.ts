@@ -60,11 +60,11 @@ export class PasswordGrantProvider extends GrantProvider {
 
 }
 
-export function getHeaders(state: { user: IUserState }): GrantProvider.IHeader[] {
+export function getHeaders(state: { user: IUserState<PasswordGrantProvider.IUserInfoModel> }): GrantProvider.IHeader[] {
     if (state.user.isAuthenticated) {
         return [{
             header: 'Authorization',
-            value: `Bearer ${state.user.info.token}`
+            value: `Bearer ${state.user.info.access_token}`
         }];
     }
 }
