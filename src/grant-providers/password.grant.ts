@@ -44,12 +44,12 @@ export class PasswordGrantProvider extends GrantProvider {
 
             }
 
-            this.ngRedux.dispatch(this.userActions.authenticated({
-                token: response.access_token,
-                expirationDate: response['.expires'],
-                userName: response.userName,
+            const info: PasswordGrantProvider.IUserInfoModel = {
+                ...response,
                 roles
-            }));
+            }
+
+            this.ngRedux.dispatch(this.userActions.authenticated(info));
 
         } catch (ex) {
             this.ngRedux.dispatch(this.userActions.authFailure('Error during authentication'));
@@ -86,11 +86,16 @@ export namespace PasswordGrantProvider {
         userName: string;
         password: string;
     }
+
     export interface IUserInfoModel extends GrantProvider.IUserInfoModel {
-        token: string;
-        expirationDate: string;
+        access_token: string;
+        token_type: string;
+        expires_in: number;
         userName: string;
+        id: string;
         roles: string[];
+        '.issued': string;
+        '.expires': string;
     }
 
 }

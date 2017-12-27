@@ -1,6 +1,6 @@
 {
     "name": "ng-redux-identity-auth",
-    "version": "2.0.2",
+    "version": "2.1.0",
     "description": "Angular redux based identity authentication",
     "main": "index.js",
     "module": "index.js",
