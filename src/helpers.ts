@@ -15,6 +15,10 @@ export class AuthHelpers<TState extends { user: IUserState }> {
     }
 
     isInRoles(roles: string[] = [], everyRole = false) {
+        const state = this.ngRedux.getState();
+        if (state.user && !state.user.isAuthenticated) {
+            return false;
+        }
         let passed = roles.length === 0;
         if (everyRole) {
             passed = roles.every(role => this.isInRole(role)) || roles.length === 0;

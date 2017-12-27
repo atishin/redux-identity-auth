@@ -47,7 +47,7 @@ export class PasswordGrantProvider extends GrantProvider {
             const info: PasswordGrantProvider.IUserInfoModel = {
                 ...response,
                 roles
-            }
+            };
 
             this.ngRedux.dispatch(this.userActions.authenticated(info));
 
