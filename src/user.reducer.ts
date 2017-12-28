@@ -3,7 +3,7 @@ import { IUserState } from './user.state';
 import { Injectable, Optional, Inject } from '@angular/core';
 import { GrantProvider } from './grant-providers/grant';
 import { IUserLoginAction, IUserAuthFailureAction, IUserAuthenticatedAction, UserActionsService } from './actions/user-actions';
-import { HANDLE_AUTH_ERROR } from './tokens';
+import { HANDLE_AUTH_ERROR, ErrorHandler, HANDLE_ERROR } from './tokens';
 import { INITIAL_USER_STATE } from './initial.states';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class UserReducerService {
 
     constructor(
         private grantProvider: GrantProvider,
-        @Optional() @Inject(HANDLE_AUTH_ERROR) private errorHandler: (error: string) => void
+        @Optional() @Inject(HANDLE_AUTH_ERROR) private errorHandler: ErrorHandler = HANDLE_ERROR
     ) { }
 
     private login(state: IUserState, action: IUserLoginAction): IUserState {
