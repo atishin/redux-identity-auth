@@ -5,13 +5,17 @@ import { GrantProvider } from './grant-providers/grant';
 import { IUserLoginAction, IUserAuthFailureAction, IUserAuthenticatedAction, UserActionsService } from './actions/user-actions';
 import { HANDLE_AUTH_ERROR, ErrorHandler, HANDLE_ERROR } from './tokens';
 import { INITIAL_USER_STATE } from './initial.states';
+import { Router } from '@angular/router';
+import { AUTHENTICATED_ROUTE } from './index';
 
 @Injectable()
 export class UserReducerService {
 
     constructor(
         private grantProvider: GrantProvider,
-        @Optional() @Inject(HANDLE_AUTH_ERROR) private errorHandler: ErrorHandler = HANDLE_ERROR
+        @Optional() @Inject(HANDLE_AUTH_ERROR) private errorHandler: ErrorHandler,
+        @Optional() @Inject(AUTHENTICATED_ROUTE) private authenticatedRoute: string,
+        private router: Router
     ) { }
 
     private login(state: IUserState, action: IUserLoginAction): IUserState {
@@ -41,6 +45,13 @@ export class UserReducerService {
     }
 
     private authenticated(state: IUserState, action: IUserAuthenticatedAction): IUserState {
+        if (this.authenticatedRoute) {
+            if (typeof this.authenticatedRoute === 'string') {
+                this.router.navigateByUrl(this.authenticatedRoute);
+            } else {
+                this.router.navigate(this.authenticatedRoute);
+            }
+        }
         return {
             ...state,
             info: action.info,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IUserState } from "../user.state";
+import { IUserState } from '../user.state';
 
 @Injectable()
 export class GrantProvider {
